@@ -13,5 +13,10 @@ module BlackjackRb
     def receive(card)
       @hand.add_to_hand(card)
     end
+
+    # resets the hand
+    def reset
+      @hand = BlackjackRb::Hand.new
+    end
   end
 end
