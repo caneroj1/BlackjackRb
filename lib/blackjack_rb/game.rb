@@ -25,6 +25,7 @@ module BlackjackRb
       loop do
         collect_bets
         give_initial_cards
+        # ask if player would like to split here
         @players.each { |player| action_cycle(player, :player) }
         action_cycle(@dealer, :dealer)
         decide_scores
@@ -49,8 +50,6 @@ module BlackjackRb
 
           double_player(player) if response.eql?('d')
           hit_player(player) if (response.eql?('h') || response.eql?('d'))
-
-          # ask if player would like to split here
         else
           if @dealer.hand.under_17? && @dealer.hand.should_hit?
             SHELL.confirm("Dealer's turn")
