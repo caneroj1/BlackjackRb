@@ -3,6 +3,12 @@ BlackjackRb
 
 Repo for playing blackjack in ruby
 
+<h3>this code will suffice for displaying cards for now</h3>
+```
+table = TTY::Table.new [["5 \xE2\x99\xA5"]]
+puts table.render(:ascii, multiline: true, width: 10, resize: true) { |renderer| renderer.padding= [1, 1, 1, 2] }
+```
+
 <h3>utf-8 encodings of suits</h3>
 
 <p>black heart:</p>
