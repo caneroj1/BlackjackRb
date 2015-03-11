@@ -24,6 +24,7 @@ module BlackjackRb
 
     # lets the player bet. the player cannot go under the minimum or over their money
     def collect_bet
+      @money = @money.to_i
       SHELL.warn("Minimum bet is $#{10}. You have $#{@money}.")
       @bet = SHELL.ask("How much do you want to bet? Enter a number between #{MINIMUM} and #{@money}.").in("#{MINIMUM}..#{@money}").on_error(:retry).read_int
     end

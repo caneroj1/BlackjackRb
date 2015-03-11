@@ -46,7 +46,9 @@ module BlackjackRb
           RENDERER.render(player.hand.cards, who)
 
           SHELL.confirm("Would you like to hit or stay or double?")
-          response = SHELL.ask("Enter 's' to stay, 'h' to hit, or 'd' to double.").argument(:required).on_error(:retry).valid(['s', 'h', 'd']).read_char
+          SHELL.ask("Enter 's' to stay, 'h' to hit, or 'd' to double.")
+
+          response = get_input
 
           double_player(player) if response.eql?('d')
           hit_player(player) if (response.eql?('h') || response.eql?('d'))
@@ -69,30 +71,30 @@ module BlackjackRb
       RENDERER.render(@dealer.hand.cards, :end)
 
       # if the dealer busts, any hand that doesn't bust wins
-      dealer_busted = @dealer.hand.busted? ? true : false
+      dealer_busted = @dealer.hand.busted?(false) ? true : false
 
       # any player that doesn't have a blackjack loses
-      dealer_blackjack = @dealer.hand.blackjack? ? true : false
+      dealer_blackjack = @dealer.hand.blackjack?(false) ? true : false
 
       # dealer's highest value hand that doesn't bust
       dealer_high = @dealer.hand.highest_value
 
       @players.each do |player|
-        if player.hand.busted?
+        if player.hand.busted?(false)
           SHELL.error("You lost $#{player.bet}")
           player.money -= player.bet
-        elsif player.hand.blackjack? && !dealer_blackjack
+        elsif player.hand.blackjack?(false) && !dealer_blackjack
           SHELL.confirm("You won $#{player.bet * 1.5}!")
           player.money += (player.bet * 1.5)
-        elsif player.hand.blackjack? && dealer_blackjack
+        elsif player.hand.blackjack?(false) && dealer_blackjack
           SHELL.confirm("Push!")
-        elsif !player.hand.blackjack? && dealer_blackjack
+        elsif !player.hand.blackjack?(false) && dealer_blackjack
           SHELL.error("You lost $#{player.bet}")
           player.money -= player.bet
-        elsif !player.hand.busted? && dealer_busted
+        elsif !player.hand.busted?(false) && dealer_busted
           SHELL.confirm("You won $#{player.bet}!")
           player.money += (player.bet)
-        elsif !player.hand.busted? && !dealer_busted
+        elsif !player.hand.busted?(false) && !dealer_busted
           if player.hand.highest_value > dealer_high
             SHELL.confirm("You won $#{player.bet}!")
             player.money += (player.bet)
@@ -150,6 +152,17 @@ module BlackjackRb
       @players.each { |player| player.reset }
       @dealer.reset
       system "clear"
+    end
+
+    # get answer from the user
+    def get_input
+      begin
+        inp = gets.chomp
+        raise Error unless %w{s h d}.include?(inp)
+      rescue
+        retry
+      end
+      inp
     end
   end
 end

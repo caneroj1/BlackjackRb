@@ -31,17 +31,23 @@ module BlackjackRb
 
     # check if the hand busted
     # a player busts if they are over 21 in each of the value array's values
-    def busted?
+    def busted?(display = true)
       busted = true
       @values.each { |val| val > 21 ? busted &= true : busted &= false }
+
+      SHELL.error("BUSTED!!") if busted && display
+
       busted
     end
 
     # check if the hand is blackjack
     # blackjack is when one of the values in the value array is 21
-    def blackjack?
+    def blackjack?(display = true)
       blackjack = false
       @values.each { |val| blackjack |= val.eql?(21) }
+
+      SHELL.confirm("BLACKJACK!!") if blackjack && display
+
       blackjack
     end
 
