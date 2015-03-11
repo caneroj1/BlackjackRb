@@ -27,10 +27,10 @@ module BlackjackRb
       clubs = Array.new(13) { |rank| BlackjackRb::Card.new(rank + 1, :club) }
 
       # create diamonds
-      diamonds = Array.new(13) { |rank| BlackjackRb::Card.new(rank + 1, :diamonds) }
+      diamonds = Array.new(13) { |rank| BlackjackRb::Card.new(rank + 1, :diamond) }
 
       # create spades
-      spades = Array.new(13) { |rank| BlackjackRb::Card.new(rank + 1, :spades) }
+      spades = Array.new(13) { |rank| BlackjackRb::Card.new(rank + 1, :spade) }
 
       # create hearts
       hearts = Array.new(13) { |rank| BlackjackRb::Card.new(rank + 1, :heart) }
