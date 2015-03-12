@@ -19,12 +19,12 @@ module BlackjackRb
     private
     def render_player(cards, who)
       table = TTY::Table.new [make_cards_array(cards)]
-      display(table, who)
+      display(table, who, cards.count)
     end
 
     def render_dealer(cards, who)
       table = TTY::Table.new [[cards[0].to_s, "? ?"]]
-      display(table, who)
+      display(table, who, cards.count)
     end
 
     def make_cards_array(cards)
@@ -33,10 +33,10 @@ module BlackjackRb
       card_array
     end
 
-    def display(table, who)
-      SHELL.confirm( who.eql?(:player) ? "Your cards" : "Dealer's Cards")
+    def display(table, who, cards)
+      SHELL.confirm(who.eql?(:player) ? "Your cards" : "Dealer's Cards")
       SHELL.warn(
-        table.render(:ascii, multiline: true, width: 20, resize: true) { |renderer| renderer.padding= [0, 0, 0, 0] } )
+        table.render(:ascii, multiline: true, width: 10 * cards, resize: true) { |renderer| renderer.padding= [1, 1, 1, 2] } )
     end
 
     def display_card(table)
